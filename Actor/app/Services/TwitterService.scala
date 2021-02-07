@@ -23,7 +23,7 @@ class TwitterService @Inject()(config: Configuration, ws: WSClient)(implicit ec:
 
   def connectToFilteredStream =  {
     ws
-      .url(config.get[String]("twitter.streamUrl"))
+      .url(config.get[String]("twitter.sampleStream"))
       .addHttpHeaders(setBearerHeader(config))
       .get()
   }
@@ -34,7 +34,7 @@ class TwitterService @Inject()(config: Configuration, ws: WSClient)(implicit ec:
     .post(SampleRules.add)
     .map(response => {
       if(response.status != 201) {
-        logger.info("Something went wrong")
+        logger.error("Something went wrong")
         logger.debug(s"Cannot add rules (HTTP ${response.status}): ${response.body}")
       } else {
         logger.info("Rules set successfully")

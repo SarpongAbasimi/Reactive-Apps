@@ -32,10 +32,8 @@ class HomeController @Inject()(ws: WSClient,
 
   def tweets = Action.async { implicit  request: Request[AnyContent] =>
     twitterService.connectToFilteredStream.map {
-      case response if response.status.equals(201) => {
-        Ok("Okay this works but I now need to stream the data")
-      }
-      case _ => InternalServerError("Some went wrong")
+      case response if response.status.equals(201) => Ok("Okay this works but I now need to stream the data")
+      case _ =>                                       InternalServerError("Some went wrong")
     }
   }
 
